@@ -174,16 +174,16 @@ function SectionHeader({ num, title, icon }) {
 
 function emptyForm() {
   return {
-    fullName: "", age: "", referFrom: "", right: "",
+    fullName: "", idCard: "", houseNo: "", age: "", referFrom: "", right: "",
     admitDate: "", admitTime: "", visitDate: "", visitTime: "",
     lastHospital: "", lastHospitalDate: "", lastHospitalTime: "",
     diagnosis: "", hasInfection: "", infectedSystem: "", organism: "",
-    onTrach: "", trachType: "", woundAround: [], onOxygen: "", oxygenType: "",
+    onTrach: "", trachType: "", trachAdvice: [], woundAround: [], onOxygen: "", oxygenType: "", oxygenAdvice: [],
     rr: "", spo2: "", temp: "",
-    onNG: "", ngInsertDate: "", ngChangeDate: "", ngFeedPerDay: "", ngFeedPerMeal: "", ngFoodType: "",
+    onNG: "", ngInsertDate: "", ngChangeDate: "", ngFeedPerDay: "", ngFeedPerMeal: "", ngFoodType: "", ngAdvice: [],
     respiratorySymptoms: [],
     urineAbility: "", catheterInsertDate: "", catheterChangeDate: "",
-    urineSymptoms: [], urineSymptomDate: "",
+    urineSymptoms: [], urineSymptomDate: "", urineAdvice: [],
     woundStartDate: "", woundAssessDate: "", woundLocation: [], woundCharacter: [],
     woundType: [], woundTypeOther: "", woundRisk: [], woundAdvice: [], woundNextDate: "", woundNextHospital: [],
     surgeryType: [], surgeryDetail: "", surgeryDate: "", surgeryHospital: "",
@@ -330,6 +330,8 @@ function PrintView({ record: r, onClose }) {
           ${qa("ชื่อ-นามสกุล", r.fullName)}
           ${qa("อายุ", r.age?`${r.age} ปี`:"")}
           ${qa("สิทธิการรักษา", r.right)}
+          ${qa("เลขบัตรประชาชน", r.idCard)}
+          ${qa("เลขที่บ้าน", r.houseNo)}
           ${qa("ส่งต่อจากโรงพยาบาล", r.referFrom)}
           ${qa("บันทึกเข้าแฟ้ม รพ.สต. วันที่/เวลา", r.admitDate?`${r.admitDate}  ${r.admitTime||""}`:"")}
           ${qa("ติดตามลงเยี่ยมบ้าน วันที่/เวลา", r.visitDate?`${r.visitDate}  ${r.visitTime||""}`:"")}
@@ -369,6 +371,18 @@ function PrintView({ record: r, onClose }) {
             ${qa("ปริมาณ/มื้อ", r.ngFeedPerMeal?`${r.ngFeedPerMeal} มล.`:"")}
             ${qa("ชนิดอาหาร", r.ngFoodType)}
           </div>`:""}
+          ${(r.trachAdvice&&r.trachAdvice.length)?`<div style="padding:6px 10px;border-top:1px dashed #99f6e4;">
+            <div class="q">💡 คำแนะนำการดูแล Tracheostomy Tube</div>
+            <div class="a">${a(r.trachAdvice)}</div>
+          </div>`:""}
+          ${(r.oxygenAdvice&&r.oxygenAdvice.length)?`<div style="padding:6px 10px;border-top:1px dashed #99f6e4;">
+            <div class="q">💡 คำแนะนำการดูแล Oxygen</div>
+            <div class="a">${a(r.oxygenAdvice)}</div>
+          </div>`:""}
+          ${(r.ngAdvice&&r.ngAdvice.length)?`<div style="padding:6px 10px;border-top:1px dashed #99f6e4;">
+            <div class="q">💡 คำแนะนำการดูแล NG Tube</div>
+            <div class="a">${a(r.ngAdvice)}</div>
+          </div>`:""}
           ${(r.respiratorySymptoms&&r.respiratorySymptoms.length)?`<div style="padding:6px 10px;border-top:1px dashed #99f6e4;">
             <div class="q">อาการผิดปกติที่เกี่ยวกับระบบทางเดินหายใจ</div>
             <div class="a">${a(r.respiratorySymptoms)}</div>
@@ -391,6 +405,10 @@ function PrintView({ record: r, onClose }) {
           <div class="qa-grid" style="border-top:1px dashed #ddd6fe;margin-top:4px;padding-top:4px;">
             ${qaFull("อาการผิดปกติที่เกี่ยวกับระบบทางเดินปัสสาวะ", a(r.urineSymptoms))}
             ${r.urineSymptomDate?qa("วันที่เริ่มมีอาการผิดปกติ", r.urineSymptomDate):""}
+          </div>`:""}
+          ${(r.urineAdvice&&r.urineAdvice.length)?`<div style="padding:6px 10px;border-top:1px dashed #ddd6fe;">
+            <div class="q">💡 คำแนะนำการดูแลระบบทางเดินปัสสาวะ</div>
+            <div class="a">${a(r.urineAdvice)}</div>
           </div>`:""}
         </div>
       </div>`;
@@ -1017,6 +1035,18 @@ export default function App() {
                 <div><label>อายุ (ปี)</label><input type="number" value={form.age} onChange={e => set("age", e.target.value)} /></div>
               </div>
               <div className="g3" style={{ marginBottom: 14 }}>
+                <div>
+                  <label>เลขบัตรประชาชน</label>
+                  <input type="text" placeholder="x-xxxx-xxxxx-xx-x" maxLength={17}
+                    value={form.idCard}
+                    onChange={e => {
+                      let v = e.target.value.replace(/[^\d-]/g, "");
+                      set("idCard", v);
+                    }} />
+                </div>
+                <div><label>เลขที่บ้าน</label><input type="text" placeholder="เช่น 12/3 ม.4 ต.แก่งผักกูด" value={form.houseNo} onChange={e => set("houseNo", e.target.value)} /></div>
+              </div>
+              <div className="g3" style={{ marginBottom: 14 }}>
                 <div><label>ส่งต่อจากโรงพยาบาล</label><select value={form.referFrom} onChange={e => set("referFrom", e.target.value)}><option value="">-- เลือก --</option>{HOSPITALS.map(h => <option key={h}>{h}</option>)}</select></div>
                 <div><label>สิทธิการรักษา</label><select value={form.right} onChange={e => set("right", e.target.value)}><option value="">-- เลือก --</option>{RIGHTS.map(r => <option key={r}>{r}</option>)}</select></div>
               </div>
@@ -1055,6 +1085,20 @@ export default function App() {
                     <MultiSelect options={WOUND_AROUND_OPTS} value={arr(form.woundAround)} onChange={v => set("woundAround", v)} placeholder="-- เลือกลักษณะรอบแผล --" />
                   </div>
                 </div>
+                {form.onTrach === "ใส่" && (
+                  <div style={{ marginTop: 12 }}>
+                    <label style={{ fontWeight: 600, color: "#0f766e", marginBottom: 8, display: "block" }}>💡 คำแนะนำการดูแล Tracheostomy Tube <span style={{ color: "#94a3b8", fontSize: 11 }}>(กดเลือกได้หลายข้อ)</span></label>
+                    <CheckTags options={[
+                      "ทำความสะอาดรอบ Trach ด้วย NSS วันละ 2-3 ครั้ง",
+                      "เปลี่ยน Inner cannula ทุก 8 ชั่วโมง หรือเมื่อมีเสมหะอุดตัน",
+                      "ดูด secretion เมื่อจำเป็น ด้วยเทคนิค Aseptic",
+                      "สังเกตสัญญาณการอุดตัน เช่น หายใจลำบาก หน้าเขียว",
+                      "ให้ความชื้นอากาศที่หายใจเข้าสม่ำเสมอ",
+                      "ตรวจสอบความแน่นของสาย Trach Tie ไม่แน่นหรือหลวมเกินไป",
+                      "บันทึกลักษณะ สี และปริมาณเสมหะทุกเวร"
+                    ]} value={arr(form.trachAdvice)} onChange={v => set("trachAdvice", v)} />
+                  </div>
+                )}
               </div>
               <div className="sc">
                 <div className="g2">
@@ -1071,17 +1115,43 @@ export default function App() {
                     </div>
                   </div>
                 </div>
+                {form.onOxygen === "ใช้" && (
+                  <div style={{ marginTop: 12 }}>
+                    <label style={{ fontWeight: 600, color: "#0f766e", marginBottom: 8, display: "block" }}>💡 คำแนะนำการดูแล Oxygen <span style={{ color: "#94a3b8", fontSize: 11 }}>(กดเลือกได้หลายข้อ)</span></label>
+                    <CheckTags options={[
+                      "ปรับอัตราการไหลของออกซิเจนตามแผนการรักษา",
+                      "ตรวจสอบการรั่วซึมของสายและอุปกรณ์สม่ำเสมอ",
+                      "ทำความสะอาด Cannula/Mask ทุกวัน",
+                      "เปลี่ยน Cannula ทุก 3-7 วัน หรือเมื่อสกปรก",
+                      "ติดตาม SpO₂ ให้อยู่ในเกณฑ์ที่กำหนด",
+                      "หลีกเลี่ยงการสูบบุหรี่และเปลวไฟใกล้ออกซิเจน",
+                      "ดูแลความชุ่มชื้นของเยื่อบุจมูก"
+                    ]} value={arr(form.oxygenAdvice)} onChange={v => set("oxygenAdvice", v)} />
+                  </div>
+                )}
               </div>
               <div className="sc">
                 <label style={{ fontWeight: 600, color: "#1e3a5f" }}>On NG Tube</label>
                 <div className="rg" style={{ margin: "8px 0" }}>{["ใส่", "ไม่ได้ใส่"].map(v => <label key={v}><input type="radio" name="onNG" value={v} checked={form.onNG === v} onChange={() => set("onNG", v)} /> {v}</label>)}</div>
-                {form.onNG === "ใส่" && <div className="g3">
+                {form.onNG === "ใส่" && <><div className="g3">
                   <div><label>วันที่ใส่</label><ThaiDateInput value={form.ngInsertDate} onChange={v => set("ngInsertDate", v)} /></div>
                   <div><label>วันที่ครบเปลี่ยน</label><ThaiDateInput value={form.ngChangeDate} onChange={v => set("ngChangeDate", v)} /></div>
                   <div><label>จำนวนมื้อ/วัน</label><input type="number" value={form.ngFeedPerDay} onChange={e => set("ngFeedPerDay", e.target.value)} /></div>
                   <div><label>ปริมาณ/มื้อ (มล.)</label><input type="number" value={form.ngFeedPerMeal} onChange={e => set("ngFeedPerMeal", e.target.value)} /></div>
                   <div><label>ชนิดอาหาร</label><div className="rg" style={{ marginTop: 8 }}>{["สำเร็จรูป", "ปรุงเอง"].map(v => <label key={v}><input type="radio" name="ngFoodType" value={v} checked={form.ngFoodType === v} onChange={() => set("ngFoodType", v)} /> {v}</label>)}</div></div>
-                </div>}
+                </div>
+                <div style={{ marginTop: 12 }}>
+                  <label style={{ fontWeight: 600, color: "#0f766e", marginBottom: 8, display: "block" }}>💡 คำแนะนำการดูแล NG Tube <span style={{ color: "#94a3b8", fontSize: 11 }}>(กดเลือกได้หลายข้อ)</span></label>
+                  <CheckTags options={[
+                    "ยืนยันตำแหน่ง NG Tube ก่อนให้อาหารทุกครั้ง",
+                    "จัดท่านอนศีรษะสูง 30-45 องศาขณะและหลังให้อาหาร 30 นาที",
+                    "ให้อาหารช้าๆ ไม่เร็วเกินไป ป้องกันสำลัก",
+                    "ล้าง NG Tube ด้วยน้ำสะอาด 20-30 มล. หลังให้อาหารทุกครั้ง",
+                    "สังเกตอาการสำลัก ไอ หายใจผิดปกติหลังให้อาหาร",
+                    "ทำความสะอาดรูจมูกและปากสม่ำเสมอ",
+                    "เปลี่ยน NG Tube ตามกำหนด และบันทึกวันที่เปลี่ยน"
+                  ]} value={arr(form.ngAdvice)} onChange={v => set("ngAdvice", v)} />
+                </div></>}
               </div>
               <div>
                 <label style={{ fontWeight: 600, color: "#1e3a5f", marginBottom: 8, display: "block" }}>อาการผิดปกติที่เกี่ยวกับระบบทางเดินหายใจ <span style={{ color: "#94a3b8", fontSize: 11 }}>(กดเลือกได้หลายข้อ)</span></label>
@@ -1102,6 +1172,19 @@ export default function App() {
                 <label style={{ fontWeight: 600, color: "#1e3a5f", marginBottom: 8, display: "block" }}>อาการผิดปกติที่เกี่ยวกับระบบทางเดินปัสสาวะ <span style={{ color: "#94a3b8", fontSize: 11 }}>(เลือกได้หลายข้อ)</span></label>
                 <MultiSelect options={URINE_SYMS} value={arr(form.urineSymptoms)} onChange={v => set("urineSymptoms", v)} placeholder="-- เลือกอาการผิดปกติ --" />
                 <div style={{ marginTop: 12 }}><label>วันที่เริ่มมีอาการผิดปกติ</label><ThaiDateInput value={form.urineSymptomDate} onChange={v => set("urineSymptomDate", v)} style={{ maxWidth: 200 }} /></div>
+                <div style={{ marginTop: 14 }}>
+                  <label style={{ fontWeight: 600, color: "#0f766e", marginBottom: 8, display: "block" }}>💡 คำแนะนำการดูแลระบบทางเดินปัสสาวะ <span style={{ color: "#94a3b8", fontSize: 11 }}>(กดเลือกได้หลายข้อ)</span></label>
+                  <CheckTags options={[
+                    "รักษาความสะอาดอวัยวะเพศและรอบๆ สายสวนทุกวัน",
+                    "วาง Urine bag ต่ำกว่าระดับกระเพาะปัสสาวะเสมอ",
+                    "ไม่ให้สายสวนหักงอหรือถูกกด",
+                    "เปลี่ยนสายสวนตามกำหนด ไม่ยืดเวลาออกไป",
+                    "ดื่มน้ำให้เพียงพออย่างน้อย 6-8 แก้ว/วัน (ถ้าไม่มีข้อห้าม)",
+                    "สังเกตสีและลักษณะปัสสาวะทุกวัน",
+                    "รายงานแพทย์/พยาบาลหากปัสสาวะขุ่น มีตะกอน หรือมีกลิ่นผิดปกติ",
+                    "ล้างมือก่อน-หลังสัมผัสสายสวนหรืออุปกรณ์ทุกครั้ง"
+                  ]} value={arr(form.urineAdvice)} onChange={v => set("urineAdvice", v)} />
+                </div>
               </div>
             </div>
 
