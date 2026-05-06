@@ -1053,14 +1053,14 @@ export default function App() {
                 <div><label>สิทธิการรักษา</label><select value={form.right} onChange={e => set("right", e.target.value)}><option value="">-- เลือก --</option>{RIGHTS.map(r => <option key={r}>{r}</option>)}</select></div>
               </div>
               <div className="g2" style={{ marginBottom: 14 }}>
-                <div><label>บันทึกเข้าแฟ้ม รพ.สต. วันที่/เวลา</label><div style={{ display: "flex", gap: 8 }}><ThaiDateInput value={form.admitDate} onChange={v => set("admitDate", v)} /><input type="time" value={form.admitTime} onChange={e => set("admitTime", e.target.value)} style={{ width: 120 }} /></div></div>
-                <div><label>ติดตามลงเยี่ยมบ้านวันที่/เวลา</label><div style={{ display: "flex", gap: 8 }}><ThaiDateInput value={form.visitDate} onChange={v => set("visitDate", v)} /><input type="time" value={form.visitTime} onChange={e => set("visitTime", e.target.value)} style={{ width: 120 }} /></div></div>
+                <div><label>บันทึกเข้าแฟ้ม รพ.สต. วันที่/เวลา</label><div style={{ display: "flex", gap: 8 }}><input type="date" value={form.admitDate} onChange={e => set("admitDate", e.target.value)} /><input type="time" value={form.admitTime} onChange={e => set("admitTime", e.target.value)} style={{ width: 120 }} /></div></div>
+                <div><label>ติดตามลงเยี่ยมบ้านวันที่/เวลา</label><div style={{ display: "flex", gap: 8 }}><input type="date" value={form.visitDate} onChange={e => set("visitDate", e.target.value)} /><input type="time" value={form.visitTime} onChange={e => set("visitTime", e.target.value)} style={{ width: 120 }} /></div></div>
               </div>
               <div className="sc">
                 <label style={{ fontWeight: 600, color: "#1e3a5f" }}>รักษาตัวในโรงพยาบาลครั้งสุดท้าย</label>
                 <div className="g3" style={{ marginTop: 10 }}>
                   <div><label>โรงพยาบาล</label><select value={form.lastHospital} onChange={e => set("lastHospital", e.target.value)}><option value="">-- เลือก --</option>{HOSPITALS.map(h => <option key={h}>{h}</option>)}</select></div>
-                  <div><label>วันที่</label><ThaiDateInput value={form.lastHospitalDate} onChange={v => set("lastHospitalDate", v)} /></div>
+                  <div><label>วันที่</label><input type="date" value={form.lastHospitalDate} onChange={e => set("lastHospitalDate", e.target.value)} /></div>
                   <div><label>เวลา</label><input type="time" value={form.lastHospitalTime} onChange={e => set("lastHospitalTime", e.target.value)} /></div>
                 </div>
                 <div style={{ marginTop: 10 }}><label>ด้วยโรคหรืออาการ</label><input type="text" placeholder="ระบุโรค/อาการ" value={form.diagnosis} onChange={e => set("diagnosis", e.target.value)} /></div>
@@ -1136,8 +1136,8 @@ export default function App() {
                 <label style={{ fontWeight: 600, color: "#1e3a5f" }}>On NG Tube</label>
                 <div className="rg" style={{ margin: "8px 0" }}>{["ใส่", "ไม่ได้ใส่"].map(v => <label key={v}><input type="radio" name="onNG" value={v} checked={form.onNG === v} onChange={() => set("onNG", v)} /> {v}</label>)}</div>
                 {form.onNG === "ใส่" && <><div className="g3">
-                  <div><label>วันที่ใส่</label><ThaiDateInput value={form.ngInsertDate} onChange={v => set("ngInsertDate", v)} /></div>
-                  <div><label>วันที่ครบเปลี่ยน</label><ThaiDateInput value={form.ngChangeDate} onChange={v => set("ngChangeDate", v)} /></div>
+                  <div><label>วันที่ใส่</label><input type="date" value={form.ngInsertDate} onChange={e => set("ngInsertDate", e.target.value)} /></div>
+                  <div><label>วันที่ครบเปลี่ยน</label><input type="date" value={form.ngChangeDate} onChange={e => set("ngChangeDate", e.target.value)} /></div>
                   <div><label>จำนวนมื้อ/วัน</label><input type="number" value={form.ngFeedPerDay} onChange={e => set("ngFeedPerDay", e.target.value)} /></div>
                   <div><label>ปริมาณ/มื้อ (มล.)</label><input type="number" value={form.ngFeedPerMeal} onChange={e => set("ngFeedPerMeal", e.target.value)} /></div>
                   <div><label>ชนิดอาหาร</label><div className="rg" style={{ marginTop: 8 }}>{["สำเร็จรูป", "ปรุงเอง"].map(v => <label key={v}><input type="radio" name="ngFoodType" value={v} checked={form.ngFoodType === v} onChange={() => set("ngFoodType", v)} /> {v}</label>)}</div></div>
@@ -1168,12 +1168,12 @@ export default function App() {
                 <label>ความสามารถในการปัสสาวะ</label>
                 <div className="rg" style={{ margin: "8px 0 14px" }}>{["ปัสสาวะได้เอง", "ใส่สายสวนปัสสาวะ"].map(v => <label key={v}><input type="radio" name="urineAbility" value={v} checked={form.urineAbility === v} onChange={() => set("urineAbility", v)} /> {v}</label>)}</div>
                 {form.urineAbility === "ใส่สายสวนปัสสาวะ" && <div className="g2" style={{ marginBottom: 14 }}>
-                  <div><label>วันที่ใส่</label><ThaiDateInput value={form.catheterInsertDate} onChange={v => set("catheterInsertDate", v)} /></div>
-                  <div><label>วันที่ครบเปลี่ยน</label><ThaiDateInput value={form.catheterChangeDate} onChange={v => set("catheterChangeDate", v)} /></div>
+                  <div><label>วันที่ใส่</label><input type="date" value={form.catheterInsertDate} onChange={e => set("catheterInsertDate", e.target.value)} /></div>
+                  <div><label>วันที่ครบเปลี่ยน</label><input type="date" value={form.catheterChangeDate} onChange={e => set("catheterChangeDate", e.target.value)} /></div>
                 </div>}
                 <label style={{ fontWeight: 600, color: "#1e3a5f", marginBottom: 8, display: "block" }}>อาการผิดปกติที่เกี่ยวกับระบบทางเดินปัสสาวะ <span style={{ color: "#94a3b8", fontSize: 11 }}>(เลือกได้หลายข้อ)</span></label>
                 <MultiSelect options={URINE_SYMS} value={arr(form.urineSymptoms)} onChange={v => set("urineSymptoms", v)} placeholder="-- เลือกอาการผิดปกติ --" />
-                <div style={{ marginTop: 12 }}><label>วันที่เริ่มมีอาการผิดปกติ</label><ThaiDateInput value={form.urineSymptomDate} onChange={v => set("urineSymptomDate", v)} style={{ maxWidth: 200 }} /></div>
+                <div style={{ marginTop: 12 }}><label>วันที่เริ่มมีอาการผิดปกติ</label><input type="date" value={form.urineSymptomDate} onChange={e => set("urineSymptomDate", e.target.value)} style={{ maxWidth: 200 }} /></div>
                 <div style={{ marginTop: 14 }}>
                   <label style={{ fontWeight: 600, color: "#0f766e", marginBottom: 8, display: "block" }}>💡 คำแนะนำการดูแลระบบทางเดินปัสสาวะ <span style={{ color: "#94a3b8", fontSize: 11 }}>(กดเลือกได้หลายข้อ)</span></label>
                   <CheckTags options={[
@@ -1194,8 +1194,8 @@ export default function App() {
             <div className="card">
               <SectionHeader num="4" title="ผู้ป่วยเสี่ยงต่อการติดเชื้อแผลเรื้อรังและแผลกดทับ" icon="🩹" />
               <div className="g3" style={{ marginBottom: 14 }}>
-                <div><label>วันที่เริ่มมีแผล</label><ThaiDateInput value={form.woundStartDate} onChange={v => set("woundStartDate", v)} /></div>
-                <div><label>วันที่ลงประเมินบาดแผล</label><ThaiDateInput value={form.woundAssessDate} onChange={v => set("woundAssessDate", v)} /></div>
+                <div><label>วันที่เริ่มมีแผล</label><input type="date" value={form.woundStartDate} onChange={e => set("woundStartDate", e.target.value)} /></div>
+                <div><label>วันที่ลงประเมินบาดแผล</label><input type="date" value={form.woundAssessDate} onChange={e => set("woundAssessDate", e.target.value)} /></div>
               </div>
               <div style={{ marginBottom: 14 }}>
                 <label>อวัยวะในร่างกายที่มีแผล <span style={{ color: "#94a3b8", fontSize: 11 }}>(เลือกได้หลายตำแหน่ง)</span></label>
@@ -1219,7 +1219,7 @@ export default function App() {
                 <CheckTags options={WOUND_ADVICE} value={arr(form.woundAdvice)} onChange={v => set("woundAdvice", v)} />
               </div>
               <div className="g2">
-                <div><label>วันที่นัดดูแผล</label><ThaiDateInput value={form.woundNextDate} onChange={v => set("woundNextDate", v)} /></div>
+                <div><label>วันที่นัดดูแผล</label><input type="date" value={form.woundNextDate} onChange={e => set("woundNextDate", e.target.value)} /></div>
                 <div>
                   <label>โรงพยาบาลที่นัดดูแผล <span style={{ color: "#94a3b8", fontSize: 11 }}>(เลือกได้หลายที่)</span></label>
                   <MultiSelect options={["รพ.สต.แก่งผักกูด", ...HOSPITALS]} value={arr(form.woundNextHospital)} onChange={v => set("woundNextHospital", v)} placeholder="-- เลือกโรงพยาบาล --" />
@@ -1236,7 +1236,7 @@ export default function App() {
               </div>
               <div style={{ marginBottom: 14 }}><label>รายละเอียดการผ่าตัด</label><textarea placeholder="ระบุรายละเอียด เช่น Lap cholecystectomy, TKR ข้างขวา, CABG..." value={form.surgeryDetail} onChange={e => set("surgeryDetail", e.target.value)} /></div>
               <div className="g2" style={{ marginBottom: 14 }}>
-                <div><label>วันที่ผ่าตัด</label><ThaiDateInput value={form.surgeryDate} onChange={v => set("surgeryDate", v)} /></div>
+                <div><label>วันที่ผ่าตัด</label><input type="date" value={form.surgeryDate} onChange={e => set("surgeryDate", e.target.value)} /></div>
                 <div><label>โรงพยาบาลที่ผ่าตัด</label><select value={form.surgeryHospital} onChange={e => set("surgeryHospital", e.target.value)}><option value="">-- เลือก --</option>{HOSPITALS.map(h => <option key={h}>{h}</option>)}</select></div>
               </div>
               <div style={{ marginBottom: 14 }}>
@@ -1247,7 +1247,7 @@ export default function App() {
                 <label>ชนิด Dressing <span style={{ color: "#94a3b8", fontSize: 11 }}>(เลือกได้หลายข้อ)</span></label>
                 <MultiSelect options={["Dry dressing", "Wet dressing", "Hydrocolloid", "Foam dressing", "Silver dressing", "Alginate", "Negative pressure (VAC)"]} value={arr(form.ssiDressing)} onChange={v => set("ssiDressing", v)} placeholder="-- เลือก Dressing --" />
               </div>
-              <div style={{ marginBottom: 14 }}><label>วันที่ทำ Dressing ล่าสุด</label><ThaiDateInput value={form.ssiDressingDate} onChange={v => set("ssiDressingDate", v)} style={{ maxWidth: 200 }} /></div>
+              <div style={{ marginBottom: 14 }}><label>วันที่ทำ Dressing ล่าสุด</label><input type="date" value={form.ssiDressingDate} onChange={e => set("ssiDressingDate", e.target.value)} style={{ maxWidth: 200 }} /></div>
               <div style={{ marginBottom: 14 }}>
                 <label style={{ fontWeight: 600, color: "#1e3a5f", marginBottom: 8, display: "block" }}>อาการแผลผ่าตัด <span style={{ color: "#94a3b8", fontSize: 11 }}>(กดเลือกได้หลายข้อ)</span></label>
                 <CheckTags options={SSI_SYMS} value={arr(form.ssiSymptoms)} onChange={v => set("ssiSymptoms", v)} />
@@ -1274,7 +1274,7 @@ export default function App() {
                       </select>
                       {p.name === "อื่นๆ" && <div style={{ marginTop: 8 }}><label>ระบุหัตถการ (อื่นๆ)</label><input type="text" placeholder="ระบุรายละเอียดหัตถการ..." value={p.otherDetail || ""} onChange={e => setP(i, "otherDetail", e.target.value)} /></div>}
                     </div>
-                    <div><label>วันที่ทำหัตถการ</label><ThaiDateInput value={p.date} onChange={v => setP(i, "date", v)} /></div>
+                    <div><label>วันที่ทำหัตถการ</label><input type="date" value={p.date} onChange={e => setP(i, "date", e.target.value)} /></div>
                     <div style={{ gridColumn: "1/-1" }}><label>ผู้ทำหัตถการ</label><input type="text" placeholder="ชื่อผู้ทำหัตถการ" value={p.by} onChange={e => setP(i, "by", e.target.value)} /></div>
                   </div>
                   <div>
@@ -1384,7 +1384,7 @@ export default function App() {
                   <div style={{ fontSize: 13, color: "#64748b", marginBottom: 3 }}>หัวหน้า รพ.สต.</div>
                   <div style={{ fontWeight: 700, color: "#1e293b" }}>นางสาวปานรดา ศิริพันธุ์</div>
                 </div>
-                <div style={{ marginTop: 14 }}><label>วันที่บันทึก</label><ThaiDateInput value={form.recordDate} onChange={v => set("recordDate", v)} style={{ maxWidth: 200 }} /></div>
+                <div style={{ marginTop: 14 }}><label>วันที่บันทึก</label><input type="date" value={form.recordDate} onChange={e => set("recordDate", e.target.value)} style={{ maxWidth: 200 }} /></div>
               </div>
             </div>
 
