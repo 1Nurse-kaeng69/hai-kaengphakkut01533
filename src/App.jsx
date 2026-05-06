@@ -46,6 +46,8 @@ function ThaiDateInput({ value, onChange, placeholder = "วว/ดด/ปปป
     />
   );
 }
+
+const G = `
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Sarabun',sans-serif;background:#f0f4f8;}
